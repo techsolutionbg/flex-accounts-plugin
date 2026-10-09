@@ -1,0 +1,35 @@
+<section class="flex-accounts-panel">
+  <h1>Нова парола</h1>
+  {% if error %}<p class="flex-accounts-error" role="alert">{{ error }}</p>{% endif %}
+  {% if message %}<p class="flex-accounts-message" role="status">{{ message }}</p>{% endif %}
+  {% if step == 'code' %}
+  <form method="post" action="/account/reset" class="flex-accounts-form">
+    <input type="hidden" name="_token" value="{{ csrf_token }}">
+    <div class="flex-accounts-fields">
+      <label class="flex-accounts-field flex-field flex-label is-wide">Имейл
+        <input class="flex-input" type="email" name="email" required maxlength="190" value="{{ email }}" autocomplete="email">
+      </label>
+      <label class="flex-accounts-field flex-field flex-label is-wide">Код
+        <input class="flex-input" type="text" name="code" required maxlength="6" inputmode="numeric" pattern="[0-9]{6}" autocomplete="one-time-code">
+      </label>
+    </div>
+    <button type="submit" class="flex-btn flex-btn--primary flex-accounts-submit">Потвърди кода</button>
+  </form>
+  {% else %}
+  <form method="post" action="/account/reset" class="flex-accounts-form">
+    <input type="hidden" name="_token" value="{{ csrf_token }}">
+    <input type="hidden" name="email" value="{{ email }}">
+    <input type="hidden" name="grant" value="{{ grant }}">
+    <div class="flex-accounts-fields">
+      <label class="flex-accounts-field flex-field flex-label is-wide">Нова парола
+        <input class="flex-input" type="password" name="password" required maxlength="72" autocomplete="new-password">
+      </label>
+      <label class="flex-accounts-field flex-field flex-label is-wide">Потвърдете паролата
+        <input class="flex-input" type="password" name="password_confirmation" required maxlength="72" autocomplete="new-password">
+      </label>
+    </div>
+    <button type="submit" class="flex-btn flex-btn--primary flex-accounts-submit">Запази паролата</button>
+  </form>
+  {% endif %}
+  <p class="flex-accounts-links"><a href="/account/login">Към входа</a></p>
+</section>

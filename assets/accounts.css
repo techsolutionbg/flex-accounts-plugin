@@ -1,0 +1,497 @@
+/* Admin customers table filters — selects stay compact; search fills remaining width. */
+.react-table-toolbar > .accounts-table-filters {
+  flex: 1 1 auto;
+  width: 100%;
+}
+.accounts-table-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  width: 100%;
+  min-width: 0;
+}
+.accounts-table-filters > .react-form-field {
+  flex: 0 1 11rem;
+  min-width: 9rem;
+}
+.accounts-table-filters > .accounts-table-search {
+  flex: 1 1 16rem;
+  min-width: 12rem;
+}
+.accounts-table-filters > .accounts-table-search input {
+  width: 100%;
+}
+@media (max-width: 720px) {
+  .accounts-table-filters > .react-form-field,
+  .accounts-table-filters > .accounts-table-search {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+}
+
+/* Admin settings form — same 1.25rem rhythm as commerce/econt between sections and save. */
+.accounts-edit-form > fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+.accounts-edit-form > fieldset > .collapsible-section + .collapsible-section,
+.accounts-edit-form > fieldset > .collapsible-section + .react-field-hint,
+.accounts-edit-form > fieldset > .collapsible-section + .react-form-actions,
+.accounts-edit-form > fieldset > .react-field-hint + .react-form-actions {
+  margin-top: 1.25rem;
+}
+
+/* Full-page white surface + centered title/breadcrumbs for account pages */
+body:has(.flex-accounts-auth),
+body:has(.flex-accounts-auth) .site-main,
+body:has(.flex-accounts-dashboard),
+body:has(.flex-accounts-dashboard) .site-main {
+  background: #fff;
+}
+
+.site-main-fullscreen:has(.flex-accounts-auth),
+.site-main-fullscreen:has(.flex-accounts-dashboard) {
+  padding-block: 0 clamp(1.5rem, 3vw, 3rem);
+}
+
+.site-main-fullscreen:has(.flex-accounts-auth) > .fullscreen-page-title,
+.site-main-fullscreen:has(.flex-accounts-dashboard) > .fullscreen-page-title {
+  text-align: center;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 500;
+  padding: clamp(1.5rem, 3vw, 2rem) 0 0;
+  margin: 0;
+}
+
+.site-main-fullscreen:has(.flex-accounts-auth) .flex-accounts-breadcrumbs,
+.site-main-fullscreen:has(.flex-accounts-dashboard) .flex-accounts-breadcrumbs {
+  justify-content: center;
+  text-align: center;
+  margin: 0.5rem 0 0;
+  padding-bottom: clamp(1.5rem, 3vw, 2rem);
+}
+
+.flex-accounts {
+  --accounts-text: var(--flex-color-text, #203027);
+  --accounts-muted: var(--flex-color-muted, #6b786e);
+  --accounts-border: var(--flex-color-border, #dce4dc);
+  --accounts-input-border: var(--flex-color-border, #d4ded5);
+  --accounts-focus: var(--flex-color-focus, #688b71);
+  --accounts-accent: var(--flex-color-accent, #2d6a4f);
+  --accounts-accent-contrast: var(--flex-color-accent-contrast, #fff);
+  --accounts-danger: var(--flex-color-danger, #923a2e);
+  --accounts-ok: #2f6b45;
+  --accounts-radius: var(--flex-radius-control, 0.5rem);
+  --accounts-control-min-height: var(--flex-control-min-height, 2.75rem);
+  --accounts-control-pad-y: var(--flex-control-padding-y, 0.8rem);
+  --accounts-control-pad-x: var(--flex-control-padding-x, 0.9rem);
+  width: min(100%, 1100px);
+  margin: 0 auto;
+  padding: 0 0 60px;
+  color: var(--accounts-text);
+  background: transparent;
+}
+
+.flex-accounts-breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--accounts-muted);
+}
+
+.flex-accounts-breadcrumbs a {
+  color: inherit;
+  text-underline-offset: 0.2em;
+}
+
+.flex-accounts-breadcrumbs a:hover {
+  color: var(--accounts-text);
+}
+
+/* WooCommerce-style login + register: no card background */
+.flex-accounts-auth {
+  width: min(100%, 420px);
+  margin: 0 auto;
+}
+
+.flex-accounts-auth.is-split {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 48px;
+  align-items: start;
+}
+
+.flex-accounts-column {
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.flex-accounts-column--login {
+  padding-right: 0;
+}
+
+.flex-accounts-auth.is-split .flex-accounts-column--login {
+  padding-right: 48px;
+  border-right: 1px solid var(--accounts-border);
+}
+
+.flex-accounts-column h2 {
+  margin: 0 0 1.35rem;
+  font-size: 1.35rem;
+  font-weight: 500;
+  text-align: left;
+}
+
+.flex-accounts-panel {
+  max-width: 560px;
+  margin: 0 auto;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+.flex-accounts-panel[data-flex-accounts-page="orders"],
+.flex-accounts-panel[data-flex-accounts-page="order"] {
+  max-width: 720px;
+}
+
+.flex-accounts-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin: 0 0 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #e8ece8;
+}
+
+.flex-accounts-nav a {
+  color: var(--accounts-muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+}
+
+.flex-accounts-nav a:hover {
+  color: var(--accounts-text);
+}
+
+.flex-accounts-nav a[aria-current="page"] {
+  color: var(--accounts-text);
+  font-weight: 600;
+}
+
+.flex-accounts-form {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.flex-accounts-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.1rem;
+}
+
+.flex-accounts-field {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--accounts-text);
+}
+
+.flex-accounts-field.is-wide {
+  grid-column: 1 / -1;
+}
+
+.flex-accounts-field label {
+  font-weight: 500;
+}
+
+.flex-accounts-required {
+  color: var(--accounts-danger);
+}
+
+.flex-accounts-field input,
+.flex-accounts-field textarea,
+.flex-accounts-field .flex-input {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: var(--accounts-control-min-height);
+  border: 1px solid var(--accounts-input-border);
+  border-radius: var(--accounts-radius);
+  padding: var(--accounts-control-pad-y) var(--accounts-control-pad-x);
+  font: inherit;
+  background: var(--flex-color-surface, #fff);
+  color: var(--accounts-text);
+}
+
+.flex-accounts-field input:focus,
+.flex-accounts-field textarea:focus,
+.flex-accounts-field .flex-input:focus {
+  outline: 2px solid var(--accounts-focus);
+  outline-offset: 2px;
+  border-color: var(--accounts-focus);
+}
+
+.flex-accounts-field input:disabled,
+.flex-accounts-field .flex-input:disabled {
+  background: color-mix(in srgb, var(--flex-color-surface, #fff) 88%, var(--accounts-border));
+  color: var(--accounts-muted);
+}
+
+.flex-accounts-field [aria-invalid="true"] {
+  border-color: var(--accounts-danger);
+}
+
+.flex-accounts-actions {
+  margin: 0.35rem 0 0;
+}
+
+.flex-accounts-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: auto;
+  min-width: 10rem;
+  min-height: var(--accounts-control-min-height);
+  border: 1px solid var(--accounts-accent);
+  border-radius: var(--accounts-radius);
+  padding: var(--accounts-control-pad-y) 1.4rem;
+  background: var(--accounts-accent);
+  color: var(--accounts-accent-contrast);
+  font: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+}
+
+.flex-accounts-submit:hover:not(:disabled) {
+  filter: brightness(0.97);
+}
+
+.flex-accounts-submit:disabled,
+.flex-accounts-loading-button[aria-busy="true"] {
+  cursor: wait;
+  opacity: 0.85;
+  filter: none;
+}
+
+.flex-accounts-loading-button .flex-accounts-button-icon,
+.flex-accounts-loading-button .flex-accounts-button-spinner {
+  width: 1.1rem;
+  height: 1.1rem;
+  flex: 0 0 auto;
+}
+
+.flex-accounts-loading-button[aria-busy="true"] .flex-accounts-button-icon {
+  display: none;
+}
+
+.flex-accounts-button-spinner {
+  animation: flex-accounts-button-spin 700ms linear infinite;
+}
+
+@keyframes flex-accounts-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flex-accounts-button-spinner {
+    animation: none;
+  }
+}
+
+.flex-accounts-lost {
+  margin: 0.25rem 0 0;
+  font-size: 0.9rem;
+}
+
+.flex-accounts-lost a {
+  color: #5f7f68;
+  text-underline-offset: 3px;
+}
+
+.flex-accounts-shipping {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--accounts-border);
+}
+.flex-accounts-shipping h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+.flex-accounts-shipping-intro {
+  margin: 0 0 1rem;
+  color: var(--accounts-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+.flex-accounts-office-mount {
+  margin: 0 0 1rem;
+}
+.flex-accounts-shipping-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+.flex-accounts-shipping-actions .flex-btn--secondary {
+  min-height: var(--accounts-control-min-height);
+}
+.flex-accounts-logout {
+  margin-top: 1.5rem;
+}
+
+.flex-accounts-logout .flex-btn,
+.flex-accounts-logout button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--accounts-control-min-height);
+  border: 1px solid var(--accounts-input-border);
+  border-radius: var(--accounts-radius);
+  padding: 0.7rem 1.1rem;
+  background: var(--flex-color-surface, transparent);
+  color: var(--accounts-muted);
+  font: inherit;
+  cursor: pointer;
+}
+
+.flex-accounts-error {
+  padding: 12px 14px;
+  margin: 0 0 1rem;
+  border: 1px solid #e5b3aa;
+  border-radius: 8px;
+  background: #fff5f2;
+  color: var(--accounts-danger);
+  font-size: 0.92rem;
+}
+
+.flex-accounts-message {
+  padding: 12px 14px;
+  margin: 0 0 1rem;
+  border: 1px solid #b7d7c2;
+  border-radius: 8px;
+  background: #f3faf5;
+  color: var(--accounts-ok);
+  font-size: 0.92rem;
+}
+
+.flex-accounts-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin: 1.25rem 0 0;
+  font-size: 0.9rem;
+}
+
+.flex-accounts-links a,
+.flex-accounts-legal a {
+  color: #5f7f68;
+  text-underline-offset: 3px;
+}
+
+.flex-accounts-links a:hover,
+.flex-accounts-legal a:hover,
+.flex-accounts-lost a:hover {
+  color: var(--accounts-text);
+}
+
+.flex-accounts-legal {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--accounts-muted);
+  line-height: 1.5;
+}
+
+.flex-accounts-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.flex-accounts-table th,
+.flex-accounts-table td {
+  text-align: left;
+  padding: 0.7rem 0.35rem;
+  border-bottom: 1px solid #e8ece8;
+}
+
+.flex-accounts-table a {
+  color: #5f7f68;
+}
+
+.flex-accounts-order {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.flex-accounts-order div {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.flex-accounts-order dt {
+  color: var(--accounts-muted);
+  font-size: 0.85rem;
+}
+
+.flex-accounts-items {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.shop-action[data-flex-accounts-nav] {
+  text-decoration: none;
+  color: inherit;
+}
+
+.flex-accounts-checkout-note {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--accounts-focus, #688b71) 45%, var(--accounts-border, #dce4dc));
+  background: color-mix(in srgb, var(--accounts-focus, #688b71) 12%, var(--flex-color-surface, #fff));
+  border-radius: var(--accounts-radius, 0.5rem);
+  color: var(--accounts-text, #115e59);
+}
+
+.flex-accounts-checkout-note a {
+  color: inherit;
+  font-weight: 600;
+}
+
+@media (max-width: 860px) {
+  .flex-accounts-auth.is-split {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .flex-accounts-auth.is-split .flex-accounts-column--login {
+    padding-right: 0;
+    padding-bottom: 2.5rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--accounts-border);
+  }
+}
+
+@media (max-width: 560px) {
+  .flex-accounts-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .flex-accounts-submit {
+    width: 100%;
+  }
+}

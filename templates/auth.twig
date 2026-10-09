@@ -1,0 +1,82 @@
+<nav class="flex-accounts-breadcrumbs" aria-label="Път до страницата">
+  <a href="/">Начало</a><span aria-hidden="true">/</span><span>Моят акаунт</span>
+</nav>
+<div class="flex-accounts-auth{% if registration_enabled %} is-split{% endif %}" id="customer_login">
+  <section class="flex-accounts-column flex-accounts-column--login">
+    <h2>Вход</h2>
+    {% if login_error %}<p class="flex-accounts-error" role="alert">{{ login_error }}</p>{% endif %}
+    {% if register_message %}<p class="flex-accounts-message" role="status">{{ register_message }}</p>{% endif %}
+    <form method="post" action="/account/login{{ next ? '?next=' ~ next|url_encode : '' }}" class="flex-accounts-form">
+      <input type="hidden" name="_token" value="{{ csrf_token }}">
+      <input type="hidden" name="form" value="login">
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <p class="flex-accounts-field flex-field is-wide">
+        <label class="flex-label" for="account_login_email">Имейл <span class="flex-accounts-required" aria-hidden="true">*</span></label>
+        <input class="flex-input" id="account_login_email" type="email" name="email" required maxlength="190" autocomplete="email" value="{{ login_email }}">
+      </p>
+      <p class="flex-accounts-field flex-field is-wide">
+        <label class="flex-label" for="account_login_password">Парола <span class="flex-accounts-required" aria-hidden="true">*</span></label>
+        <input class="flex-input" id="account_login_password" type="password" name="password" required maxlength="72" autocomplete="current-password">
+      </p>
+      <p class="flex-accounts-actions">
+        <button type="submit" class="flex-btn flex-btn--primary flex-accounts-submit flex-accounts-loading-button" data-accounts-loading-button>
+          <svg class="flex-accounts-button-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+          <span class="flex-accounts-button-label">Вход</span>
+        </button>
+      </p>
+      <p class="flex-accounts-lost"><a href="/account/forgot">Забравена парола?</a></p>
+      <p class="flex-accounts-lost"><a href="/account/resend-verification">Не получихте писмо за потвърждаване?</a></p>
+    </form>
+  </section>
+
+  {% if registration_enabled %}
+  <section class="flex-accounts-column flex-accounts-column--register">
+    <h2>Регистрация</h2>
+    {% if register_error %}<p class="flex-accounts-error" role="alert">{{ register_error }}</p>{% endif %}
+    <form method="post" action="/account/register{{ next ? '?next=' ~ next|url_encode : '' }}" class="flex-accounts-form">
+      <input type="hidden" name="_token" value="{{ csrf_token }}">
+      <input type="hidden" name="form" value="register">
+      {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+      <div class="flex-accounts-fields">
+        <p class="flex-accounts-field flex-field">
+          <label class="flex-label" for="account_reg_first_name">Име <span class="flex-accounts-required" aria-hidden="true">*</span></label>
+          <input class="flex-input" id="account_reg_first_name" type="text" name="first_name" required maxlength="80" value="{{ values.first_name }}" autocomplete="given-name">
+        </p>
+        <p class="flex-accounts-field flex-field">
+          <label class="flex-label" for="account_reg_last_name">Фамилия <span class="flex-accounts-required" aria-hidden="true">*</span></label>
+          <input class="flex-input" id="account_reg_last_name" type="text" name="last_name" required maxlength="80" value="{{ values.last_name }}" autocomplete="family-name">
+        </p>
+        <p class="flex-accounts-field flex-field is-wide">
+          <label class="flex-label" for="account_reg_email">Имейл <span class="flex-accounts-required" aria-hidden="true">*</span></label>
+          <input class="flex-input" id="account_reg_email" type="email" name="email" required maxlength="190" value="{{ values.email }}" autocomplete="email">
+        </p>
+        <p class="flex-accounts-field flex-field is-wide">
+          <label class="flex-label" for="account_reg_phone">Телефон</label>
+          <input class="flex-input" id="account_reg_phone" type="tel" name="phone" maxlength="30" value="{{ values.phone }}" autocomplete="tel">
+        </p>
+        <p class="flex-accounts-field flex-field is-wide">
+          <label class="flex-label" for="account_reg_password">Парола <span class="flex-accounts-required" aria-hidden="true">*</span></label>
+          <input class="flex-input" id="account_reg_password" type="password" name="password" required maxlength="72" autocomplete="new-password">
+        </p>
+        <p class="flex-accounts-field flex-field is-wide">
+          <label class="flex-label" for="account_reg_password_confirmation">Потвърдете паролата <span class="flex-accounts-required" aria-hidden="true">*</span></label>
+          <input class="flex-input" id="account_reg_password_confirmation" type="password" name="password_confirmation" required maxlength="72" autocomplete="new-password">
+        </p>
+      </div>
+      {% if terms_url or privacy_url %}
+        <p class="flex-accounts-legal">С регистрацията приемате
+          {% if terms_url %}<a href="{{ terms_url }}" target="_blank" rel="noopener">общите условия</a>{% endif %}
+          {% if terms_url and privacy_url %} и {% endif %}
+          {% if privacy_url %}<a href="{{ privacy_url }}" target="_blank" rel="noopener">политиката за поверителност</a>{% endif %}.
+        </p>
+      {% endif %}
+      <p class="flex-accounts-actions">
+        <button type="submit" class="flex-btn flex-btn--primary flex-accounts-submit flex-accounts-loading-button" data-accounts-loading-button>
+          <svg class="flex-accounts-button-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg>
+          <span class="flex-accounts-button-label">Регистрация</span>
+        </button>
+      </p>
+    </form>
+  </section>
+  {% endif %}
+</div>

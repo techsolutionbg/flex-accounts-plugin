@@ -1,0 +1,39 @@
+{
+  "id": "flex/accounts",
+  "name": "Flex Accounts",
+  "version": "0.2.0",
+  "description": "Регистрация и вход за публични потребители. Работи standalone; при активен Flex Commerce отключва магазинни акаунти.",
+  "minimum_platform_version": "0.1.56",
+  "entrypoint": "Flex\\Accounts\\AccountsPlugin",
+  "autoload": {
+    "Flex\\Accounts\\": "src/"
+  },
+  "permissions": [
+    "admin.ui",
+    "routes.admin",
+    "routes.public",
+    "frontend.assets"
+  ],
+  "frontend": {
+    "scripts": [
+      "assets/admin.js",
+      "assets/accounts.js",
+      "assets/checkout.js"
+    ],
+    "styles": [
+      "assets/accounts.css"
+    ],
+    "public": {
+      "scripts": [
+        "assets/accounts.js"
+      ],
+      "styles": [
+        "assets/accounts.css"
+      ]
+    }
+  },
+  "metadata": {
+    "status": "stable",
+    "storage": "database"
+  }
+}

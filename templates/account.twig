@@ -1,0 +1,66 @@
+<nav class="flex-accounts-breadcrumbs" aria-label="Път до страницата">
+  <a href="/">Начало</a><span aria-hidden="true">/</span><span>Моят профил</span>
+</nav>
+<section class="flex-accounts-panel flex-accounts-dashboard" data-flex-accounts-page="profile">
+  <nav class="flex-accounts-nav" aria-label="Акаунт">
+    <a href="/account" aria-current="page">Профил</a>
+    <a href="/account/password">Парола</a>
+    {% if show_orders %}<a href="/account/orders">Поръчки</a>{% endif %}
+  </nav>
+  {% if error %}<p class="flex-accounts-error" role="alert">{{ error }}</p>{% endif %}
+  {% if message %}<p class="flex-accounts-message" role="status">{{ message }}</p>{% endif %}
+  <form method="post" action="/account" class="flex-accounts-form">
+    <input type="hidden" name="_token" value="{{ csrf_token }}">
+    <input type="hidden" name="form" value="profile">
+    <div class="flex-accounts-fields">
+      <label class="flex-accounts-field flex-field flex-label">Име
+        <input class="flex-input" type="text" name="first_name" required maxlength="80" value="{{ customer.first_name }}" autocomplete="given-name">
+      </label>
+      <label class="flex-accounts-field flex-field flex-label">Фамилия
+        <input class="flex-input" type="text" name="last_name" required maxlength="80" value="{{ customer.last_name }}" autocomplete="family-name">
+      </label>
+      <label class="flex-accounts-field flex-field flex-label is-wide">Имейл
+        <input class="flex-input" type="email" value="{{ customer.email }}" disabled>
+      </label>
+      <label class="flex-accounts-field flex-field flex-label is-wide">Телефон
+        <input class="flex-input" type="tel" name="phone" maxlength="30" value="{{ customer.phone ?? '' }}" autocomplete="tel">
+      </label>
+    </div>
+    <button type="submit" class="flex-btn flex-btn--primary flex-accounts-submit">Запази</button>
+  </form>
+
+  {% if econt_enabled %}
+  <section class="flex-accounts-shipping" aria-labelledby="flex-accounts-shipping-title" data-flex-accounts-shipping>
+    <h2 id="flex-accounts-shipping-title">Офис за доставка</h2>
+    <p class="flex-accounts-shipping-intro">Запазеният офис на Еконт се попълва автоматично при нова поръчка. Можете да го смените или премахнете по всяко време.</p>
+    <form method="post" action="/account" class="flex-accounts-form flex-accounts-shipping-form">
+      <input type="hidden" name="_token" value="{{ csrf_token }}">
+      <input type="hidden" name="form" value="shipping_office">
+      <input type="hidden" name="office_code" value="{{ shipping_preferences.office_code|default('') }}" data-accounts-office-code>
+      <input type="hidden" name="office_name" value="{{ shipping_preferences.office_name|default('') }}" data-accounts-office-name>
+      <input type="hidden" name="office_address" value="{{ shipping_preferences.office_address|default('') }}" data-accounts-office-address>
+      <input type="hidden" name="office_city" value="{{ shipping_preferences.city|default('') }}" data-accounts-office-city>
+      <input type="hidden" name="office_postcode" value="{{ shipping_preferences.postcode|default('') }}" data-accounts-office-postcode>
+      <div
+        class="commerce-checkout-shipping-mount flex-accounts-office-mount"
+        data-commerce-shipping-mount
+        data-shipping-method="econt_office"
+        data-shipping-meta='{{ shipping_meta_json|raw }}'
+      ></div>
+      <div class="flex-accounts-shipping-actions">
+        <button type="submit" name="shipping_action" value="save" class="flex-btn flex-btn--primary flex-accounts-submit" data-accounts-office-save{% if not has_shipping_office %} disabled{% endif %}>Запази офиса</button>
+        {% if has_shipping_office %}
+        <button type="submit" name="shipping_action" value="clear" class="flex-btn flex-btn--secondary">Премахни запазения офис</button>
+        {% endif %}
+      </div>
+    </form>
+  </section>
+  <link rel="stylesheet" href="/extensions/flex/econt/assets/assets/econt.css?v=5">
+  <script type="module" src="/extensions/flex/econt/assets/assets/checkout.js?v=9"></script>
+  {% endif %}
+
+  <form method="post" action="/account/logout" class="flex-accounts-logout">
+    <input type="hidden" name="_token" value="{{ csrf_token }}">
+    <button type="submit" class="flex-btn flex-btn--secondary">Изход</button>
+  </form>
+</section>

@@ -1,0 +1,27 @@
+<nav class="flex-accounts-breadcrumbs" aria-label="Път до страницата">
+  <a href="/">Начало</a><span aria-hidden="true">/</span><a href="/account">Моят профил</a><span aria-hidden="true">/</span><span>Поръчки</span>
+</nav>
+<section class="flex-accounts-panel flex-accounts-dashboard" data-flex-accounts-page="orders">
+  <nav class="flex-accounts-nav" aria-label="Акаунт">
+    <a href="/account">Профил</a>
+    <a href="/account/password">Парола</a>
+    <a href="/account/orders" aria-current="page">Поръчки</a>
+  </nav>
+  {% if orders is empty %}
+    <p>Нямате свързани поръчки.</p>
+  {% else %}
+    <table class="flex-accounts-table">
+      <thead><tr><th>Номер</th><th>Статус</th><th>Сума</th><th>Дата</th></tr></thead>
+      <tbody>
+      {% for order in orders %}
+        <tr>
+          <td><a href="/account/orders/{{ order.id }}">{{ order.number }}</a></td>
+          <td>{{ order.status }}</td>
+          <td>{{ (order.total_minor / 100)|number_format(2, ',', ' ') }} {{ order.currency }}</td>
+          <td>{{ order.created_at }}</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+</section>

@@ -1,0 +1,11 @@
+<h2>Нов линк за потвърждаване</h2>
+{% if error %}<p class="flex-accounts-error" role="alert">{{ error }}</p>{% endif %}
+{% if message %}<p class="flex-accounts-message" role="status">{{ message }}</p>{% endif %}
+<p>Линкът е валиден 24 часа. Повторно изпращане е възможно след поне 60 секунди.</p>
+<form method="post" action="/account/resend-verification" class="flex-accounts-verification-form">
+  <input type="hidden" name="_token" value="{{ csrf_token }}">
+  <p class="flex-accounts-field"><label for="verification_email">Имейл</label>
+    <input class="flex-input" id="verification_email" name="email" type="email" required maxlength="190" autocomplete="email"></p>
+  <button type="submit" class="flex-btn flex-btn--primary">Изпрати нов линк</button>
+</form>
+<p><a href="/account/login">Назад към входа</a></p>

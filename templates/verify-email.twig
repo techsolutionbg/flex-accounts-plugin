@@ -1,0 +1,13 @@
+<h2>Потвърждаване на имейл</h2>
+{% if error %}<p class="flex-accounts-error" role="alert">{{ error }}</p>{% endif %}
+{% if message %}<p class="flex-accounts-message" role="status">{{ message }}</p>{% endif %}
+{% if not error and not message %}
+  <p>Натиснете бутона, за да потвърдите имейла и да активирате акаунта си.</p>
+  <form method="post" action="/account/verify-email" class="flex-accounts-verification-form">
+    <input type="hidden" name="_token" value="{{ csrf_token }}">
+    <input type="hidden" name="customer" value="{{ customer_id }}">
+    <input type="hidden" name="token" value="{{ token }}">
+    <button type="submit" class="flex-btn flex-btn--primary">Потвърди имейла</button>
+  </form>
+{% endif %}
+<p><a href="/account/login">Вход</a> · <a href="/account/resend-verification">Изпрати нов линк</a></p>

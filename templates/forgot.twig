@@ -1,0 +1,18 @@
+<section class="flex-accounts-panel">
+  <h1>Забравена парола</h1>
+  {% if error %}<p class="flex-accounts-error" role="alert">{{ error }}</p>{% endif %}
+  {% if message %}<p class="flex-accounts-message" role="status">{{ message }}</p>{% endif %}
+  <form method="post" action="/account/forgot" class="flex-accounts-form">
+    <input type="hidden" name="_token" value="{{ csrf_token }}">
+    <div class="flex-accounts-fields">
+      <label class="flex-accounts-field flex-field flex-label is-wide">Имейл
+        <input class="flex-input" type="email" name="email" required maxlength="190" autocomplete="email">
+      </label>
+    </div>
+    <button type="submit" class="flex-btn flex-btn--primary flex-accounts-submit">Изпрати код</button>
+  </form>
+  <p class="flex-accounts-links">
+    <a href="/account/reset">Имам код</a>
+    <a href="/account/login">Към входа</a>
+  </p>
+</section>

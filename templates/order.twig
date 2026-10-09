@@ -1,0 +1,26 @@
+<nav class="flex-accounts-breadcrumbs" aria-label="Път до страницата">
+  <a href="/">Начало</a><span aria-hidden="true">/</span><a href="/account">Моят профил</a><span aria-hidden="true">/</span><a href="/account/orders">Поръчки</a><span aria-hidden="true">/</span><span>{% if order %}{{ order.number }}{% else %}Поръчка{% endif %}</span>
+</nav>
+<section class="flex-accounts-panel flex-accounts-dashboard" data-flex-accounts-page="order">
+  <nav class="flex-accounts-nav" aria-label="Акаунт">
+    <a href="/account">Профил</a>
+    <a href="/account/password">Парола</a>
+    <a href="/account/orders" aria-current="page">Поръчки</a>
+  </nav>
+  {% if error %}<p class="flex-accounts-error" role="alert">{{ error }}</p>{% endif %}
+  {% if order %}
+    <dl class="flex-accounts-order">
+      <div><dt>Статус</dt><dd>{{ order.status }} / {{ order.payment_status }}</dd></div>
+      <div><dt>Сума</dt><dd>{{ (order.total_minor / 100)|number_format(2, ',', ' ') }} {{ order.currency }}</dd></div>
+      <div><dt>Дата</dt><dd>{{ order.created_at }}</dd></div>
+    </dl>
+    {% if order.items %}
+      <h2>Продукти</h2>
+      <ul class="flex-accounts-items">
+        {% for item in order.items %}
+          <li>{{ item.name }} × {{ item.quantity }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endif %}
+</section>

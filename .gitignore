@@ -1,0 +1,10 @@
+.env
+.env.*
+vendor/
+node_modules/
+.phpunit.cache/
+*.sqlite
+*.log
+*.zip
+Thumbs.db
+.DS_Store
