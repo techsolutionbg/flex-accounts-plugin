@@ -131,4 +131,4 @@ The MySQL checks use randomly prefixed temporary tables and clean them up. The S
 
 ## License
 
-No license file is included. Publishing this code does not grant an open-source license.
+This plugin is licensed under the GNU General Public License, version 2 or (at your option) any later version (`GPL-2.0-or-later`). The full text of version 2 is in [`LICENSE`](LICENSE).
