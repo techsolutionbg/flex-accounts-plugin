@@ -12,7 +12,7 @@
     <dl class="flex-accounts-order">
       <div><dt>Статус</dt><dd>{{ order.status }} / {{ order.payment_status }}</dd></div>
       <div><dt>Сума</dt><dd>{{ (order.total_minor / 100)|number_format(2, ',', ' ') }} {{ order.currency }}</dd></div>
-      <div><dt>Дата</dt><dd>{{ order.created_at }}</dd></div>
+      <div><dt>Дата</dt><dd>{{ flex_time(order.created_at) }}</dd></div>
     </dl>
     {% if order.items %}
       <h2>Продукти</h2>

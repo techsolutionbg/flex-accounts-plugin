@@ -1,4 +1,4 @@
-# Flex Accounts 0.2.0
+# Flex Accounts 0.2.1
 
 Flex Accounts adds customer registration, login, profiles and password recovery to the public side of a Flex CMS website. Customers are stored separately from CMS administrators. Requires **Flex CMS 0.1.56 or later**. **Flex Commerce is optional**: account features also work on websites without a shop.
 

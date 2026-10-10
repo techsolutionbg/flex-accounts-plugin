@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 — 2026-10-10
+
+- Show order dates in the customer profile with the platform time standard: stored UTC values are shown in the visitor's time zone with a relative time (Flex CMS 0.1.59+; older platforms show the stored value).
+- Show customer registration dates in the administration with the platform `DateTime` component.
+
 ## 0.2.0 — 2026-10-09
 
 - Implement optional email confirmation for new customer registrations: 24-hour links, explicit confirmation, replacement links and delivery-failure recovery.

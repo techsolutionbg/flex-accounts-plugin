@@ -1,6 +1,8 @@
 export function createPage(host) {
   const {React, components: C, request, toast, icons} = host;
   const h = React.createElement, base = '/admin/plugins/flex/accounts';
+  // Platform time standard (0.1.59+); older platforms show the stored UTC value.
+  const when = (value, style) => C.DateTime ? h(C.DateTime, {value, style}) : (value || '—');
   const statuses = {all: 'Всички статуси', active: 'Активни', pending: 'Чакащи', disabled: 'Изключени'};
 
   function Select({value, options, onChange, label}) {
@@ -52,7 +54,7 @@ export function createPage(host) {
       {key: 'email', label: 'Имейл', sortable: true},
       {key: 'phone', label: 'Телефон', render: (r) => r.phone || '—'},
       {key: 'status', label: 'Статус', render: (r) => h('span', {className: 'react-status-badge status-' + (r.status === 'active' ? 'active' : r.status === 'pending' ? 'draft' : 'inactive')}, statuses[r.status] || r.status)},
-      {key: 'created_at', label: 'Регистрация', sortable: true},
+      {key: 'created_at', label: 'Регистрация', sortable: true, render: (r) => when(r.created_at), sortValue: (r) => host.time?.parse(r.created_at)?.valueOf() ?? r.created_at},
       {key: 'actions', label: 'Действия', render: (r) => h(C.TableActionsMenu, null,
         r.status !== 'active' && h(C.DropdownOption, {disabled: busy, onClick: () => setCustomerStatus(r.id, 'active')}, 'Активирай'),
         r.status !== 'disabled' && h(C.DropdownOption, {disabled: busy, onClick: () => setCustomerStatus(r.id, 'disabled')}, 'Изключи'),

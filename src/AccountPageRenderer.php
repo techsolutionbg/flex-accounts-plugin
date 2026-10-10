@@ -10,7 +10,7 @@ use Flex\Menus\{PublicMenuApi, PublicMenuRenderer};
 use Flex\Pages\{Page, PageRepository};
 use Flex\Themes\ThemeManager;
 use Psr\Http\Message\ResponseInterface;
-use Twig\{Environment, Loader\FilesystemLoader};
+use Twig\{Environment, Loader\FilesystemLoader, TwigFunction};
 
 final readonly class AccountPageRenderer
 {
@@ -63,10 +63,23 @@ final readonly class AccountPageRenderer
     {
         $loader = new FilesystemLoader(__DIR__ . '/../templates');
 
-        return (new Environment($loader, [
+        $twig = new Environment($loader, [
             'cache' => false,
             'strict_variables' => true,
             'autoescape' => 'html',
-        ]))->render($template, $data);
+        ]);
+        $twig->addFunction(new TwigFunction('flex_time', [self::class, 'time'], ['is_safe' => ['html']]));
+
+        return $twig->render($template, $data);
+    }
+
+    /** Stored times are UTC; /assets/flex-time.js shows them in the visitor's zone (platform 0.1.59+). */
+    public static function time(mixed $value, string $style = 'datetime'): string
+    {
+        if (class_exists(\Flex\Extension\V1\Time::class)) {
+            return \Flex\Extension\V1\Time::html($value, $style);
+        }
+
+        return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
     }
 }
