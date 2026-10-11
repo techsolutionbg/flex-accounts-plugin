@@ -33,6 +33,7 @@ final class AccountsPlugin implements PluginInterface, BootablePluginInterface, 
     public function boot(PluginContext $context): void
     {
         (new AccountStore())->install();
+        AccountAssets::use($context->assets ?? null);
         $detector = new CommerceDetector();
         $commerceActive = $detector->active();
 
@@ -70,11 +71,11 @@ final class AccountsPlugin implements PluginInterface, BootablePluginInterface, 
             return;
         }
 
+        // The checkout page asks for its files here; they are printed with the theme's plugin tags.
         $context->api->addFilter('commerce.checkout.assets', static function (mixed $assets): mixed {
-            $list = is_array($assets) ? $assets : [];
-            $list[] = ['type' => 'script', 'href' => '/extensions/flex/accounts/assets/assets/checkout.js?v=2'];
+            AccountAssets::checkout();
 
-            return $list;
+            return $assets;
         });
         $context->api->addFilter('commerce.checkout.data', static function (mixed $data): mixed {
             if (!is_array($data)) {

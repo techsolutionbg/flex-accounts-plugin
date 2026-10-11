@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Flex\Accounts;
 
+use Flex\Configuration\ProjectPaths;
 use Flex\Contracts\Http\ResponseFactoryInterface;
 use Flex\Media\PublicMediaApi;
 use Flex\Menus\{PublicMenuApi, PublicMenuRenderer};
@@ -20,17 +21,16 @@ final readonly class AccountPageRenderer
         private PageRepository $pages,
         private PublicMenuRenderer $menus,
         private PublicMediaApi $media,
+        private ProjectPaths $paths,
     ) {}
 
     /** @param array<string, mixed> $data */
     public function render(string $title, string $template, array $data = [], int $status = 200): ResponseInterface
     {
         $html = $this->template($template, $data);
-        $asset = '/extensions/flex/accounts/assets/assets/';
-        // accounts.js is loaded once via plugin frontend assets; avoid a second module instance.
-        // CSS/JS also load via theme frontend_extension_tags; keep a content link as fallback for themes without form_controls.
-        $content = '<link rel="stylesheet" href="' . $asset . 'accounts.css?v=3">'
-            . '<div class="flex-accounts">' . $html . '</div>';
+        // The forms' files load only on account pages, with the theme's plugin tags.
+        AccountAssets::account();
+        $content = '<div class="flex-accounts">' . $html . '</div>';
         $pages = $this->pages->publicPageSet();
         $capabilities = $this->themes->capabilities();
         $menus = $this->menus->forTheme($capabilities['theme'] ?? '', $pages, $capabilities['menu_locations']);
@@ -64,13 +64,26 @@ final readonly class AccountPageRenderer
         $loader = new FilesystemLoader(__DIR__ . '/../templates');
 
         $twig = new Environment($loader, [
-            'cache' => false,
+            // Compiled templates are kept between requests and recompiled when a template changes.
+            'cache' => $this->templateCache(),
+            'auto_reload' => true,
             'strict_variables' => true,
             'autoescape' => 'html',
         ]);
         $twig->addFunction(new TwigFunction('flex_time', [self::class, 'time'], ['is_safe' => ['html']]));
 
         return $twig->render($template, $data);
+    }
+
+    /** storage/cache/accounts-twig when it can be written, otherwise no cache. */
+    private function templateCache(): string|false
+    {
+        $directory = $this->paths->storage('cache/accounts-twig');
+        if (!is_dir($directory)) {
+            @mkdir($directory, 0775, true);
+        }
+
+        return is_dir($directory) && is_writable($directory) ? $directory : false;
     }
 
     /** Stored times are UTC; /assets/flex-time.js shows them in the visitor's zone (platform 0.1.59+). */

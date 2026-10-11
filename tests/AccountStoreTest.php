@@ -89,6 +89,36 @@ final class AccountStoreTest extends TestCase
         self::assertFalse($this->store->ownsOrder(1, 11));
     }
 
+    public function testOrderSummariesUseOneQueryAndSkipMissingOrders(): void
+    {
+        $this->db->schema()->create('flex_commerce_orders', static function ($table): void {
+            $table->increments('id');
+            foreach (['number', 'status', 'payment_status', 'currency'] as $column) {
+                $table->string($column);
+            }
+            $table->integer('total_minor');
+            $table->text('items');
+            $table->timestamp('created_at')->nullable();
+        });
+        $this->db->connection()->table('flex_commerce_orders')->insert([
+            ['id' => 10, 'number' => 'FC-10', 'status' => 'new', 'payment_status' => 'pending', 'currency' => 'EUR', 'total_minor' => 2500, 'items' => '[]', 'created_at' => '2026-10-01 10:00:00'],
+            ['id' => 12, 'number' => 'FC-12', 'status' => 'completed', 'payment_status' => 'paid', 'currency' => 'EUR', 'total_minor' => 990, 'items' => '[]', 'created_at' => '2026-10-02 10:00:00'],
+            ['id' => 13, 'number' => 'FC-13', 'status' => 'new', 'payment_status' => 'pending', 'currency' => 'EUR', 'total_minor' => 100, 'items' => '[]', 'created_at' => null],
+        ]);
+        foreach ([10, 11, 12] as $order) {
+            $this->store->linkOrder(1, $order);
+        }
+        $this->store->linkOrder(2, 13);
+        $this->db->connection()->enableQueryLog();
+
+        $summaries = $this->store->orderSummariesFor(1);
+
+        self::assertSame(['FC-12', 'FC-10'], array_column($summaries, 'number'), 'newest first, without the missing order 11 or another customer\'s order');
+        self::assertSame(['id' => 12, 'number' => 'FC-12', 'status' => 'completed', 'payment_status' => 'paid', 'total_minor' => 990, 'currency' => 'EUR', 'created_at' => '2026-10-02 10:00:00'], $summaries[0]);
+        self::assertCount(2, $this->db->connection()->getQueryLog(), 'one query for the links and one for the orders');
+        self::assertSame([], $this->store->orderSummariesFor(3));
+    }
+
     public function testDisableBumpsAuthVersion(): void
     {
         $hash = (new PasswordHasher())->hash('password-12345');

@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 — 2026-10-11
+
+- Load the account files only on `/account` pages and on checkout, through Flex CMS 0.1.62 asset groups; the header link is rendered on the server.
+- Keep compiled account templates between requests (`storage/cache/accounts-twig`).
+- List a customer's orders with one query instead of loading every order with its items and history.
+- Requires Flex CMS 0.1.62.
+
 ## 0.2.1 — 2026-10-10
 
 - Show order dates in the customer profile with the platform time standard: stored UTC values are shown in the visitor's time zone with a relative time (Flex CMS 0.1.59+; older platforms show the stored value).

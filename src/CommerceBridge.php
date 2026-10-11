@@ -125,33 +125,12 @@ final class CommerceBridge
         if (!($this->store->settings()['show_orders_in_account'] ?? true)) {
             return [];
         }
-        if (!class_exists(\Flex\Commerce\OrderStore::class)) {
+        try {
+            // Orders that no longer exist are left out by the query itself.
+            return $this->store->orderSummariesFor((int) $user['id']);
+        } catch (\Throwable) {
             return [];
         }
-        $ids = $this->store->orderIdsFor((int) $user['id']);
-        if ($ids === []) {
-            return [];
-        }
-        $orderStore = new \Flex\Commerce\OrderStore();
-        $orders = [];
-        foreach ($ids as $id) {
-            try {
-                $order = $orderStore->get($id);
-                $orders[] = [
-                    'id' => $order['id'],
-                    'number' => $order['number'],
-                    'status' => $order['status'],
-                    'payment_status' => $order['payment_status'],
-                    'total_minor' => $order['total_minor'],
-                    'currency' => $order['currency'],
-                    'created_at' => $order['created_at'] ?? null,
-                ];
-            } catch (\Throwable) {
-                // Skip missing or inaccessible orders.
-            }
-        }
-
-        return $orders;
     }
 
     /** @return array<string, mixed>|null */

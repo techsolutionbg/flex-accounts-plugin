@@ -461,6 +461,34 @@ final class AccountStore
             ->all();
     }
 
+    /**
+     * The customer's Flex Commerce orders for the account list, newest first, in one query and without the
+     * items, customer details and history that only the order page needs.
+     * @return list<array{id: int, number: string, status: string, payment_status: string, total_minor: int, currency: string, created_at: string|null}>
+     */
+    public function orderSummariesFor(int $customerId): array
+    {
+        $ids = $this->orderIdsFor($customerId);
+        if ($ids === []) {
+            return [];
+        }
+
+        return $this->db->table('flex_commerce_orders')
+            ->whereIn('id', $ids)
+            ->orderByDesc('id')
+            ->get(['id', 'number', 'status', 'payment_status', 'total_minor', 'currency', 'created_at'])
+            ->map(static fn (object $row): array => [
+                'id' => (int) $row->id,
+                'number' => (string) $row->number,
+                'status' => (string) $row->status,
+                'payment_status' => (string) $row->payment_status,
+                'total_minor' => (int) $row->total_minor,
+                'currency' => (string) $row->currency,
+                'created_at' => $row->created_at === null ? null : (string) $row->created_at,
+            ])
+            ->all();
+    }
+
     public function ownsOrder(int $customerId, int $orderId): bool
     {
         return $this->db->table('flex_accounts_order_links')
