@@ -174,7 +174,10 @@ async function submitAuthForm(form, button) {
     }
 
     const redirect = typeof payload.redirect === 'string' && payload.redirect ? payload.redirect : '/account';
-    window.location.assign(redirect);
+    // Themes with page navigation (Flex Starter 1.3.0+) open the page without reloading; it also updates the
+    // account link in the header.
+    if (window.FlexNavigation?.navigate) window.FlexNavigation.navigate(redirect);
+    else window.location.assign(redirect);
   } catch {
     showFormAlert(form, 'error', 'Възникна грешка. Опитайте отново.');
     setLoadingButton(button, false);

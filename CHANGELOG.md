@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.4.0 — 2026-10-11
+
+- After signing in or registering, open the next page without reloading where the theme supports it; the header account link follows.
+
 ## 0.3.0 — 2026-10-11
 
 - Load the account files only on `/account` pages and on checkout, through Flex CMS 0.1.62 asset groups; the header link is rendered on the server.

@@ -1,7 +1,7 @@
 {
   "id": "flex/accounts",
   "name": "Flex Accounts",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Регистрация и вход за публични потребители. Работи standalone; при активен Flex Commerce отключва магазинни акаунти.",
   "minimum_platform_version": "0.1.62",
   "entrypoint": "Flex\\Accounts\\AccountsPlugin",
